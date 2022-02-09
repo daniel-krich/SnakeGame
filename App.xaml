@@ -1,0 +1,23 @@
+﻿<Application x:Class="SnakeGame.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:SnakeGame"
+             xmlns:viewmodels="clr-namespace:SnakeGame.ViewModels"
+             xmlns:views="clr-namespace:SnakeGame.Views">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Themes/ModernButton.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type viewmodels:MenuViewModel}">
+                <views:MenuView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:SnakeGameViewModel}">
+                <views:SnakeGameView/>
+            </DataTemplate>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

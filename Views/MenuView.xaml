@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="SnakeGame.Views.MenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SnakeGame.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="900">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Grid background -->
+        <Border Grid.Row="1"
+                Grid.Column="1"
+                Grid.RowSpan="3"
+                Grid.ColumnSpan="3"
+                Background="#212121"
+                CornerRadius="15"
+                Opacity="0.5"/>
+        
+        <!-- Menu title -->
+        <TextBlock Text="Snake game"
+                   Grid.Row="1"
+                   Grid.Column="1"
+                   Grid.ColumnSpan="3"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Foreground="#efefef"
+                   FontFamily="Bahnschrift Condensed"
+                   FontSize="36"/>
+        
+        <!-- Play Btn -->
+        <Button Content="Play"
+                Grid.Row="2"
+                Grid.Column="2"
+                Width="150"
+                Height="50"
+                Background="#efefef"
+                Foreground="#212121"
+                Command="{Binding Play}"
+                Style="{StaticResource ModernButton}"
+                FontFamily="Bahnschrift Condensed"
+                FontSize="24"/>
+
+        <!-- Exit Btn -->
+        <Button Content="Exit"
+                Grid.Row="3"
+                Grid.Column="2"
+                Width="100"
+                Height="50"
+                Background="#ff2020"
+                Foreground="#efefef"
+                Command="{Binding Exit}"
+                Style="{StaticResource ModernButton}"
+                FontFamily="Bahnschrift Condensed"
+                FontSize="24"/>
+    </Grid>
+</UserControl>
