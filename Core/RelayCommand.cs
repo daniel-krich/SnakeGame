@@ -10,24 +10,28 @@ namespace SnakeGame.Core
 {
     public class RelayCommand : ICommand
     {
-        private Action<object> _command;
+        private Action<object> _execute;
+        private Func<object, bool> _canExecute;
 
-        public event EventHandler CanExecuteChanged;
-
-        public RelayCommand(Action<object> command)
+        public event EventHandler CanExecuteChanged
         {
-            _command = command;
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public bool CanExecute(object parameter)
+        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
-            if (_command is not null)
-                return true;
-            else
-                return false;
+            _execute = execute;
+            _canExecute = canExecute;
         }
 
-        public void Execute(object parameter) => _command?.Invoke(parameter);
+        public bool CanExecute(object parameter) =>
+            _canExecute?.Invoke(parameter) ?? true;
         
+
+        public void Execute(object parameter) =>
+            _execute?.Invoke(parameter);
+        
+
     }
 }

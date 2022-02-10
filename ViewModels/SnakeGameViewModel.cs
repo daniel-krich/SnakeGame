@@ -1,20 +1,37 @@
-﻿using SnakeGame.Models.Snake;
+﻿using SnakeGame.Core;
+using SnakeGame.Snake;
 using SnakeGame.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace SnakeGame.ViewModels
 {
+    
     public class SnakeGameViewModel : BaseViewModel
     {
-        public SnakeGameLogic _snakeGame;
-        public SnakeGameViewModel(IPageNavigator navigator)
+        public SnakeGameMain SnakeGame { get; set; }
+
+        public RelayCommand Play { get; set; }
+        public RelayCommand NavToMenu { get; set; }
+        public SnakeGameViewModel(IPageNavigator navigator, SnakeGameMain snakeGameLogic)
         {
-            
+            SnakeGame = snakeGameLogic;
+
+            NavToMenu = new RelayCommand(o => {
+                SnakeGame.Exit();
+                navigator.NavigateTo<MenuViewModel>();
+            });
+
+            Play = new RelayCommand(o => SnakeGame.Start());
+
         }
     }
 }

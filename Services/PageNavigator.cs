@@ -35,7 +35,7 @@ namespace SnakeGame.Services
         public void NavigateTo<T>() =>
             CurrentPage = _serviceProvider.GetRequiredService<T>() as BaseViewModel;
 
-        public void OnPropertyChanged([CallerMemberName] string name = null) =>
+        protected void OnPropertyChanged([CallerMemberName] string name = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         
     }

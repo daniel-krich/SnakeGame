@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using SnakeGame.ViewModels;
 using SnakeGame.Services;
+using SnakeGame.Snake;
+using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 namespace SnakeGame.Core
 {
@@ -16,6 +19,16 @@ namespace SnakeGame.Core
         {
             IServiceCollection service = new ServiceCollection();
 
+            service.AddTransient<SnakeScore>();
+            service.AddTransient<SnakeGameMain>();
+            service.AddTransient<SnakeControls>();
+            service.AddSingleton<SnakeCollection>();
+            service.AddSingleton<SnakeGameSettings>();
+            service.AddSingleton<SnakeEvents>();
+
+            service.AddTransient<FunctionDelayer>();
+
+            //ViewModels
             service.AddTransient<MenuViewModel>();
             service.AddTransient<SnakeGameViewModel>();
 
