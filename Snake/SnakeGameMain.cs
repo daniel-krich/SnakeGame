@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-//using System.Diagnostics;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -18,12 +18,22 @@ namespace SnakeGame.Snake
         private SnakeBody _rootSnake;
         private SnakeApple _apple;
         private bool _isplaying;
+        private bool _ispaused;
         private FunctionDelayer _funcDelay;
         private SnakeEvents _snakeEvents;
 
         public SnakeControls Controls { get; set; }
         public SnakeScore SnakeStats { get; set; }
         public SnakeGameSettings SnakeSettings { get; set; }
+        public bool IsPaused
+        {
+            get => _ispaused && _isplaying;
+            set
+            {
+                _ispaused = value;
+                OnPropertyChanged();
+            }
+        }
         public bool IsPlaying
         {
             get => _isplaying;
@@ -81,7 +91,7 @@ namespace SnakeGame.Snake
             // Check is the snake is not "eating" itself
             foreach (SnakeBody snk in _rootSnake)
             {
-                if(cursor.Left == snk.Left &&
+                if (cursor.Left == snk.Left &&
                     cursor.Top == snk.Top &&
                     snk != cursor)
                 {
@@ -121,14 +131,24 @@ namespace SnakeGame.Snake
             }, SnakeStats.SnakeSpeed);
 
             CompositionTarget.Rendering += MainLoop;
+            _snakeEvents.SnakeDirectionChanged += OnDirectionChange;
 
             IsPlaying = true;
+            IsPaused = true;
+            //Trace.WriteLine(IsPlaying);
+            //Trace.WriteLine(IsNotActive);
+        }
+
+        public void OnDirectionChange(SnakeDirection snakeDirection)
+        {
+            IsPaused = false;
         }
 
         public void Exit()
         {
             SnakeShapesCollection.Clear();
             CompositionTarget.Rendering -= MainLoop;
+            _snakeEvents.SnakeDirectionChanged -= OnDirectionChange;
             IsPlaying = false;
             _snakeEvents.InvokeSnakeGameOver();
         }

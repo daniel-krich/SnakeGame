@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 //using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace SnakeGame.Snake
         private SnakeEvents _snakeEvents;
         private SnakeGameSettings _snakeGameSettings;
         private SnakeCollection _snakeCollection;
-        private SnakeDirection _snakeDirection;
+        public SnakeDirection _snakeDirection;
         protected override Geometry DefiningGeometry { get => new RectangleGeometry(new Rect(new Point(0, 0), new Size(Width, Height))); }
 
         public double Left
@@ -81,6 +82,7 @@ namespace SnakeGame.Snake
 
         public void SnakeMove()
         {
+            if (_snakeDirection == SnakeDirection.Pause) return;
             SnakeBody cursor = Last();
             double lastLeft = cursor.Left, lastTop = cursor.Top;
             //
@@ -102,25 +104,23 @@ namespace SnakeGame.Snake
 
         public void OnDirectionChange(SnakeDirection snakeDirection)
         {
-            //Todo: make a cleaner if statement....
-
             if(_snakeDirection == SnakeDirection.Left &&
-                snakeDirection == SnakeDirection.Right ||
+                snakeDirection != SnakeDirection.Right ||
                 _snakeDirection == SnakeDirection.Right &&
-                snakeDirection == SnakeDirection.Left) // can't go from right to left or vise versa
-            {
-                
-            }
-            else if (_snakeDirection == SnakeDirection.Up &&
-                snakeDirection == SnakeDirection.Down ||
+                snakeDirection != SnakeDirection.Left ||
+                _snakeDirection == SnakeDirection.Up &&
+                snakeDirection != SnakeDirection.Down ||
                 _snakeDirection == SnakeDirection.Down &&
-                snakeDirection == SnakeDirection.Up) // can't go from up to down or vise versa
-            {
-                
-            }
-            else
+                snakeDirection != SnakeDirection.Up)
             {
                 _snakeDirection = snakeDirection;
+                _snakeEvents.InvokeSnakeDirectionChanged(snakeDirection);
+            }
+            else if(_snakeDirection == SnakeDirection.Pause &&
+                    snakeDirection != SnakeDirection.Right)
+            {
+                _snakeDirection = snakeDirection;
+                _snakeEvents.InvokeSnakeDirectionChanged(snakeDirection);
             }
         }
 
@@ -134,7 +134,8 @@ namespace SnakeGame.Snake
 
         public void OnGameEnd()
         {
-
+            _snakeEvents.SnakeTryDirectionChanged -= OnDirectionChange;
+            _snakeEvents.SnakeGameOver -= OnGameEnd;
         }
 
         public IEnumerator<SnakeBody> GetEnumerator()

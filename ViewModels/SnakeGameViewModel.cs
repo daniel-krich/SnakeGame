@@ -29,9 +29,7 @@ namespace SnakeGame.ViewModels
                 SnakeGame.Exit();
                 navigator.NavigateTo<MenuViewModel>();
             });
-
             Play = new RelayCommand(o => SnakeGame.Start());
-
         }
     }
 }

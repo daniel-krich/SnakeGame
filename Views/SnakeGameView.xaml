@@ -77,6 +77,28 @@
                         FontWeight="Bold"/>
         </StackPanel>
 
+        <!-- paused game text -->
+        <TextBlock Text="Game is paused, double press arrows to continue"
+                Grid.Row="3"
+                Grid.Column="2"
+                Grid.ColumnSpan="3"
+                Panel.ZIndex="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                TextAlignment="Center"
+                Height="100"
+                FontSize="15"
+                Foreground="#212121"
+                FocusVisualStyle="{x:Null}">
+            <TextBlock.Visibility>
+                <Binding Path="SnakeGame.IsPaused">
+                    <Binding.Converter>
+                        <BooleanToVisibilityConverter />
+                    </Binding.Converter>
+                </Binding>
+            </TextBlock.Visibility>
+        </TextBlock>
+
         <!-- start game btn -->
         <Button Content="Start"
                 Grid.Row="3"

@@ -27,15 +27,19 @@ namespace SnakeGame.Snake
         {
             get
             {
-                if (Score > 100)
-                    return 50;
+                if(Score > 150)
+                    return 1000 / 15;
+                else if(Score > 100)
+                    return 1000 / 14;
+                else if (Score > 75)
+                    return 1000 / 13;
                 else if (Score > 50)
-                    return 100;
+                    return 1000 / 12;
                 else if (Score > 25)
-                    return 150;
+                    return 1000 / 11;
                 else if (Score >= 0)
-                    return 200;
-                return 200;
+                    return 1000 / 10;
+                return 1000 / 10;
             }
         }
 
