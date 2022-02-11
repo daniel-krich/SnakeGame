@@ -108,14 +108,9 @@ namespace SnakeGame.Snake
             _snakeEvents.InvokeSnakeGameStart();
 
             _rootSnake = new SnakeBody(_snakeEvents, SnakeSettings, SnakeShapesCollection);
-            _rootSnake.Width = SnakeSettings.PixelWidth / SnakeSettings.PixelScale;
-            _rootSnake.Height = SnakeSettings.PixelHeight / SnakeSettings.PixelScale;
-            _rootSnake.Fill = SnakeSettings.SnakeHeadColor;
-            _rootSnake.Left = SnakeSettings.PixelWidth / 2;
-            _rootSnake.Top = SnakeSettings.PixelHeight / 2;
+            _rootSnake.AddSnakeJoint();
+            _rootSnake.AddSnakeJoint();
             SnakeShapesCollection.Add(_rootSnake);
-            _rootSnake.AddSnakeJoint();
-            _rootSnake.AddSnakeJoint();
             //
             _apple = new SnakeApple(_snakeEvents, SnakeSettings, SnakeShapesCollection)
             {
@@ -126,9 +121,7 @@ namespace SnakeGame.Snake
             SnakeShapesCollection.Add(_apple);
             _apple.ChangeAppleLocation();
             //
-            _funcDelay.CreateDo(() => {
-                _rootSnake.SnakeMove();
-            }, SnakeStats.SnakeSpeed);
+            _funcDelay.CreateDo(() => _rootSnake.SnakeMove(), SnakeStats.SnakeSpeed);
 
             CompositionTarget.Rendering += MainLoop;
             _snakeEvents.SnakeDirectionChanged += OnDirectionChange;

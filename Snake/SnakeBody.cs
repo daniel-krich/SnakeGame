@@ -48,6 +48,15 @@ namespace SnakeGame.Snake
         public void AddSnakeJoint()
         {
             SnakeBody lastPart = Last();
+            if (lastPart == this)
+            {
+                // init the tail or the "root"
+                this.Width = _snakeGameSettings.PixelWidth / _snakeGameSettings.PixelScale;
+                this.Height = _snakeGameSettings.PixelHeight / _snakeGameSettings.PixelScale;
+                this.Fill = _snakeGameSettings.SnakeHeadColor;
+                this.Left = _snakeGameSettings.PixelWidth / 2;
+                this.Top = _snakeGameSettings.PixelHeight / 2;
+            }
 
             SnakeBody newHead = new SnakeBody(_snakeEvents, _snakeGameSettings, _snakeCollection)
             {
@@ -66,6 +75,7 @@ namespace SnakeGame.Snake
             lastPart.Next = newHead; // reference the next object
 
             _snakeCollection.Add(newHead); // add to collection for render
+            
         }
 
         private void RepositionHead(SnakeBody head)
