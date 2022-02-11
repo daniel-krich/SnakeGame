@@ -19,17 +19,18 @@ namespace SnakeGame.ViewModels
     {
         public SnakeGameMain SnakeGame { get; set; }
 
-        public RelayCommand Play { get; set; }
+        public RelayCommand Replay { get; set; }
         public RelayCommand NavToMenu { get; set; }
         public SnakeGameViewModel(IPageNavigator navigator, SnakeGameMain snakeGameLogic)
         {
             SnakeGame = snakeGameLogic;
+            SnakeGame.Start();
 
             NavToMenu = new RelayCommand(o => {
                 SnakeGame.Exit();
                 navigator.NavigateTo<MenuViewModel>();
             });
-            Play = new RelayCommand(o => SnakeGame.Start());
+            Replay = new RelayCommand(o => SnakeGame.Start());
         }
     }
 }

@@ -9,8 +9,7 @@
              FocusVisualStyle="{x:Null}"
              d:DesignHeight="560" d:DesignWidth="900">
 
-    <Grid Focusable="False"
-          FocusVisualStyle="{x:Null}">
+    <Grid Focusable="True" Loaded="GridLoaded_SetFocus">
         <Grid.InputBindings>
             <KeyBinding Command="{Binding SnakeGame.Controls.CommandLeft}" Key="Left"/>
             <KeyBinding Command="{Binding SnakeGame.Controls.CommandUp}" Key="Up"/>
@@ -19,69 +18,64 @@
         </Grid.InputBindings>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="500"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="{Binding SnakeGame.SnakeSettings.PixelHeight, Mode=OneTime}"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="{Binding SnakeGame.SnakeSettings.PixelWidth, Mode=OneTime}"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- back to menu -->
-        <Button Content="Back"
-                    Grid.Row="2"
-                    Grid.Column="2"
-                    Width="100"
-                    Height="20"
-                    Margin="5"
-                    Background="#303030"
-                    Foreground="#00cc80"
-                    FontWeight="Bold"
-                    FocusVisualStyle="{x:Null}"
-                    Command="{Binding NavToMenu}"
-                    Style="{StaticResource ModernButton}"/>
-        <StackPanel Grid.Row="2"
-                    Grid.Column="4"
+        <StackPanel Grid.Row="1"
+                    Grid.Column="1"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-            <!-- score indicator -->
-            <TextBlock Text="Score:"
-                        Grid.Row="2"
-                        Grid.Column="4"
-                        TextAlignment="Center"
-                        HorizontalAlignment="Center"
+            <!-- back to menu -->
+            <Button Content="Back"
+                    Width="100"
+                    FontSize="15"
+                    Margin="0,0,50,0"
+                    Background="#303030"
+                    Foreground="#00cc80"
+                    FocusVisualStyle="{x:Null}"
+                    Command="{Binding NavToMenu}"
+                    Style="{StaticResource ModernButton}"
+                    FontWeight="DemiBold"/>
+            <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Padding="5"
-                        Background="#303030"
-                        Foreground="#00cc80"
-                        FontWeight="Bold"/>
-            <TextBlock Text="{Binding SnakeGame.SnakeStats.Score}"
-                        Grid.Row="2"
-                        Grid.Column="4"
-                        TextAlignment="Center"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Padding="5"
-                        Background="#efefef"
-                        Foreground="#212121"
-                        FontWeight="Bold"/>
+                        Orientation="Horizontal">
+                <!-- score indicator -->
+                <TextBlock Text="Score"
+                            TextAlignment="Center"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Padding="5"
+                            FontSize="15"
+                            Width="60"
+                            Background="#303030"
+                            Foreground="#00cc80"
+                            FontWeight="DemiBold"/>
+                <TextBlock Text="{Binding SnakeGame.SnakeStats.Score}"
+                            TextAlignment="Center"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Padding="5"
+                            FontSize="15"
+                            MinWidth="40"
+                            Background="#efefef"
+                            Foreground="#212121"
+                            FontWeight="DemiBold"/>
+            </StackPanel>
         </StackPanel>
 
         <!-- paused game text -->
-        <TextBlock Text="Game is paused, double press arrows to continue"
-                Grid.Row="3"
-                Grid.Column="2"
-                Grid.ColumnSpan="3"
+        <TextBlock Text="Game is paused, press any arrow to resume"
+                Grid.Row="2"
+                Grid.Column="1"
                 Panel.ZIndex="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -99,22 +93,20 @@
             </TextBlock.Visibility>
         </TextBlock>
 
-        <!-- start game btn -->
-        <Button Content="Start"
-                Grid.Row="3"
-                Grid.Column="2"
-                Grid.ColumnSpan="3"
-                Panel.ZIndex="1"
+        <!-- replay game btn -->
+        <Button Content="Replay"
+                Grid.Row="2"
+                Grid.Column="1"
+                Panel.ZIndex="2"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Width="250"
-                Height="100"
-                FontSize="50"
+                Width="150"
+                Height="70"
+                FontSize="30"
                 Margin="5"
-                Background="#303030"
-                Foreground="#00cc80"
-                FontWeight="Bold"
-                Command="{Binding Play}"
+                Background="#00cc80"
+                Foreground="#efefef"
+                Command="{Binding Replay}"
                 FocusVisualStyle="{x:Null}"
                 Style="{StaticResource ModernButton}">
             <Button.Visibility>
@@ -125,23 +117,25 @@
                 </Binding>
             </Button.Visibility>
         </Button>
-        <ItemsControl Grid.Row="3"
-                      Grid.Column="2"
-                      Grid.ColumnSpan="3"
-                      FocusVisualStyle="{x:Null}"
-                      ItemsSource="{Binding SnakeGame.SnakeShapesCollection}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    
-                    <Canvas Focusable="False"
-                            FocusVisualStyle="{x:Null}"
-                            ClipToBounds="True"
-                            Width="{Binding SnakeGame.SnakeSettings.PixelWidth, Mode=OneTime}"
-                            Height="{Binding SnakeGame.SnakeSettings.PixelHeight, Mode=OneTime}"
-                            Background="{Binding SnakeGame.SnakeSettings.BoardColor, Mode=OneTime}"/>
-                    
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
+        <Border Grid.Row="2"
+                Grid.Column="1"
+                CornerRadius="3"
+                BorderThickness="3"
+                Focusable="True"
+                BorderBrush="#7F000000"
+                Width="{Binding SnakeGame.SnakeSettings.PixelWidth, Mode=OneTime}"
+                Height="{Binding SnakeGame.SnakeSettings.PixelHeight, Mode=OneTime}"
+                Background="{Binding SnakeGame.SnakeSettings.BoardColor, Mode=OneTime}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <ItemsControl FocusVisualStyle="{x:Null}"
+                          ItemsSource="{Binding SnakeGame.SnakeShapesCollection}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas ClipToBounds="True" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </Border>
     </Grid>
 </UserControl>
