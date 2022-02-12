@@ -79,13 +79,21 @@ namespace SnakeGame.Snake
             
         }
 
+        /// <summary>
+        /// reverses the snake.
+        /// </summary>
+        /// <returns>returns the new "root" / snake tail</returns>
         public SnakeBody ReverseSnake()
         {
             SwapSnakeColor();
             return ReverseSnakeNodes();
         }
 
-        public SnakeBody ReverseSnakeNodes()
+        /// <summary>
+        /// Reverses the snake nodes.
+        /// </summary>
+        /// <returns>Returns the new "root" / snake tail</returns>
+        private SnakeBody ReverseSnakeNodes()
         {
             SnakeBody Cursor = this;
             while (true)
@@ -102,8 +110,10 @@ namespace SnakeGame.Snake
         }
 
 
-
-        public void SwapSnakeColor()
+        /// <summary>
+        /// Head and tail exchange colors
+        /// </summary>
+        private void SwapSnakeColor()
         {
             SnakeBody startCursor = this;
             SnakeBody endCursor = Last();

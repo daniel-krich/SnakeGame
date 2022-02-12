@@ -51,9 +51,10 @@ namespace SnakeGame.Snake
             _snakeEvents.SnakeGameOver += OnGameEnd;
         }
 
-        public void OnAppleEaten()
+        public void OnAppleEaten(bool isbadapple)
         {
-            Score++;
+            if(!isbadapple) // add score only if it is a good apple
+                Score++;
         }
 
         public void OnGameStart()

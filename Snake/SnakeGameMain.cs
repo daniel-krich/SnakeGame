@@ -101,7 +101,7 @@ namespace SnakeGame.Snake
                 if (_apple.IsBadApple)
                 {
                     _rootSnake = _rootSnake.ReverseSnake();
-                    _snakeEvents.InvokeSnakeAppleEaten();
+                    _snakeEvents.InvokeSnakeAppleEaten(_apple.IsBadApple);
 
                     SnakeBody headSnake = _rootSnake.Last();
 
@@ -118,7 +118,7 @@ namespace SnakeGame.Snake
                 else
                 {
                     _rootSnake.AddSnakeJoint();
-                    _snakeEvents.InvokeSnakeAppleEaten();
+                    _snakeEvents.InvokeSnakeAppleEaten(_apple.IsBadApple);
                 }
             }
             //
