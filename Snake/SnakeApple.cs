@@ -43,7 +43,7 @@ namespace SnakeGame.Snake
 
         public void OnAppleEaten(bool isbadapple)
         {
-            GenerateApple();
+            GenerateAppleTypeAndPosition();
         }
 
         public void OnGameEnd()
@@ -51,7 +51,7 @@ namespace SnakeGame.Snake
 
         }
 
-        public void GenerateApple()
+        public void GenerateAppleTypeAndPosition()
         {
             int elements = 0;
             double randLeft, randTop;
@@ -73,7 +73,7 @@ namespace SnakeGame.Snake
                 }).Count();
             } while (elements > 0);
 
-            if(Utilities.ChanceToBoolean(20)) // 20 percent chance for a bad apple
+            if(Utilities.ChanceToBoolean(15)) // 15 percent chance for a bad apple
             {
                 Fill = _snakeGameSettings.BadAppleColor;
                 IsBadApple = true;

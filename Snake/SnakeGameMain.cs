@@ -135,7 +135,7 @@ namespace SnakeGame.Snake
             //
             _apple = new SnakeApple(_snakeEvents, SnakeSettings, SnakeShapesCollection);
             SnakeShapesCollection.Add(_apple);
-            _apple.GenerateApple();
+            _apple.GenerateAppleTypeAndPosition();
             //
             _funcDelay.CreateDo(() => _rootSnake.SnakeMove(), SnakeStats.SnakeSpeed);
 

@@ -46,9 +46,12 @@ namespace SnakeGame.Snake
             _snakeEvents.SnakeGameOver += OnGameEnd;
         }
 
+        /// <summary>
+        /// Creates a new head to the snake, thus increasing the snake length by 1.
+        /// </summary>
         public void AddSnakeJoint()
         {
-            SnakeBody lastPart = Last();
+            SnakeBody lastPart = Last(); // current head
             if (lastPart == this)
             {
                 // init the tail or the "root"
@@ -162,28 +165,22 @@ namespace SnakeGame.Snake
 
         public void OnTryDirectionChange(SnakeDirection snakeDirection)
         {
-            if(_snakeDirection == SnakeDirection.Left &&
-                snakeDirection != SnakeDirection.Right ||
-                _snakeDirection == SnakeDirection.Right &&
-                snakeDirection != SnakeDirection.Left ||
-                _snakeDirection == SnakeDirection.Up &&
-                snakeDirection != SnakeDirection.Down ||
-                _snakeDirection == SnakeDirection.Down &&
-                snakeDirection != SnakeDirection.Up)
+            if (this.Previous != null && this.Next == null) // Looking only for the "Head".
             {
-                _snakeDirection = snakeDirection;
-                _snakeEvents.InvokeSnakeDirectionChanged(snakeDirection);
-            }
-            else if(_snakeDirection == SnakeDirection.Pause &&
-                    snakeDirection != SnakeDirection.Right)
-            {
-                _snakeDirection = snakeDirection;
-                _snakeEvents.InvokeSnakeDirectionChanged(snakeDirection);
+                if (snakeDirection == SnakeDirection.Left && this.Left <= this.Previous.Left ||
+                    snakeDirection == SnakeDirection.Right && this.Left >= this.Previous.Left ||
+                    snakeDirection == SnakeDirection.Up && this.Top <= this.Previous.Top ||
+                    snakeDirection == SnakeDirection.Down && this.Top >= this.Previous.Top)
+                {
+                    _snakeDirection = snakeDirection;
+                    _snakeEvents.InvokeSnakeDirectionChanged(snakeDirection);
+                }
             }
         }
 
         public void OnForceDirectionChange(SnakeDirection snakeDirection)
         {
+            Trace.WriteLine(snakeDirection.ToString());
             _snakeDirection = snakeDirection;
         }
 
