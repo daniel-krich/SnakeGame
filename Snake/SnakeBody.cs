@@ -180,7 +180,7 @@ namespace SnakeGame.Snake
 
         public void OnForceDirectionChange(SnakeDirection snakeDirection)
         {
-            Trace.WriteLine(snakeDirection.ToString());
+            //Trace.WriteLine(snakeDirection.ToString());
             _snakeDirection = snakeDirection;
         }
 
