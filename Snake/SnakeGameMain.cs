@@ -21,6 +21,7 @@ namespace SnakeGame.Snake
         private bool _ispaused;
         private FunctionDelayer _funcDelay;
         private SnakeEvents _snakeEvents;
+        private SnakeDirection _currentDirection;
 
         public SnakeControls Controls { get; set; }
         public SnakeScore SnakeStats { get; set; }
@@ -80,14 +81,6 @@ namespace SnakeGame.Snake
                 return;
             }
 
-            // Apple has eaten check
-            var distance = Math.Sqrt((Math.Pow(_apple.Left - cursor.Left, 2) + Math.Pow(_apple.Top - cursor.Top, 2)));
-            if (distance < SnakeSettings.PixelWidth / SnakeSettings.PixelScale)
-            {
-                _rootSnake.AddSnakeJoint();
-                _snakeEvents.InvokeSnakeAppleEaten();
-            }
-
             // Check is the snake is not "eating" itself
             foreach (SnakeBody snk in _rootSnake)
             {
@@ -98,6 +91,34 @@ namespace SnakeGame.Snake
                     //Trace.WriteLine("Snake override");
                     Exit();
                     return;
+                }
+            }
+
+            // Apple has eaten check
+            var distance = Math.Sqrt((Math.Pow(_apple.Left - cursor.Left, 2) + Math.Pow(_apple.Top - cursor.Top, 2)));
+            if (distance < SnakeSettings.PixelWidth / SnakeSettings.PixelScale)
+            {
+                if (_apple.IsBadApple)
+                {
+                    _rootSnake = _rootSnake.ReverseSnake();
+                    _snakeEvents.InvokeSnakeAppleEaten();
+
+                    SnakeBody headSnake = _rootSnake.Last();
+
+                    if (headSnake.Left < headSnake.Previous.Left)
+                        _snakeEvents.InvokeSnakeDirectionChanged(SnakeDirection.Left);
+                    else if (headSnake.Left > headSnake.Previous.Left)
+                        _snakeEvents.InvokeSnakeDirectionChanged(SnakeDirection.Right);
+                    else if(headSnake.Top < headSnake.Previous.Top)
+                        _snakeEvents.InvokeSnakeDirectionChanged(SnakeDirection.Up);
+                    else if (headSnake.Top > headSnake.Previous.Top)
+                        _snakeEvents.InvokeSnakeDirectionChanged(SnakeDirection.Down);
+
+                }
+                else
+                {
+                    _rootSnake.AddSnakeJoint();
+                    _snakeEvents.InvokeSnakeAppleEaten();
                 }
             }
             //
@@ -112,14 +133,9 @@ namespace SnakeGame.Snake
             _rootSnake.AddSnakeJoint();
             SnakeShapesCollection.Add(_rootSnake);
             //
-            _apple = new SnakeApple(_snakeEvents, SnakeSettings, SnakeShapesCollection)
-            {
-                Width = SnakeSettings.PixelWidth / SnakeSettings.PixelScale,
-                Height = SnakeSettings.PixelHeight / SnakeSettings.PixelScale,
-                Fill = SnakeSettings.AppleColor
-            };
+            _apple = new SnakeApple(_snakeEvents, SnakeSettings, SnakeShapesCollection);
             SnakeShapesCollection.Add(_apple);
-            _apple.ChangeAppleLocation();
+            _apple.GenerateApple();
             //
             _funcDelay.CreateDo(() => _rootSnake.SnakeMove(), SnakeStats.SnakeSpeed);
 
@@ -128,12 +144,11 @@ namespace SnakeGame.Snake
 
             IsPlaying = true;
             IsPaused = true;
-            //Trace.WriteLine(IsPlaying);
-            //Trace.WriteLine(IsNotActive);
         }
 
         public void OnDirectionChange(SnakeDirection snakeDirection)
         {
+            _currentDirection = snakeDirection;
             IsPaused = false;
         }
 

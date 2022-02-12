@@ -30,6 +30,8 @@ namespace SnakeGame.Snake
             set => Canvas.SetTop(this, value);
         }
 
+        public bool IsBadApple { get; set; }
+
         public SnakeApple(SnakeEvents snakeEvents, SnakeGameSettings snakeGameSettings, SnakeCollection snakeCollection)
         {
             _snakeEvents = snakeEvents;
@@ -41,7 +43,7 @@ namespace SnakeGame.Snake
 
         public void OnAppleEaten()
         {
-            ChangeAppleLocation();
+            GenerateApple();
         }
 
         public void OnGameEnd()
@@ -49,7 +51,7 @@ namespace SnakeGame.Snake
 
         }
 
-        public void ChangeAppleLocation()
+        public void GenerateApple()
         {
             int elements = 0;
             double randLeft, randTop;
@@ -71,8 +73,21 @@ namespace SnakeGame.Snake
                 }).Count();
             } while (elements > 0);
 
+            if(Utilities.ChanceToBoolean(15)) // 15 percent chance for a bad apple
+            {
+                Fill = _snakeGameSettings.BadAppleColor;
+                IsBadApple = true;
+            }
+            else
+            {
+                Fill = _snakeGameSettings.AppleColor;
+                IsBadApple = false;
+            }
+
             Left = randLeft;
             Top = randTop;
+            Width = _snakeGameSettings.PixelWidth / _snakeGameSettings.PixelScale;
+            Height = _snakeGameSettings.PixelHeight / _snakeGameSettings.PixelScale;
         }
     }
 }

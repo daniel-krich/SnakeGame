@@ -14,6 +14,7 @@ namespace SnakeGame.Snake
         private Brush _snakeColor;
         private Brush _snakeHeadColor;
         private Brush _appleColor;
+        private Brush _badAppleColor;
         private int _pixelWidth;
         private int _pixelHeight;
         private int _pixelScale;
@@ -27,6 +28,7 @@ namespace SnakeGame.Snake
             SnakeColor = new SolidColorBrush(Color.FromRgb(36, 143, 36));
             SnakeHeadColor = new SolidColorBrush(Color.FromRgb(20, 82, 20));
             AppleColor = new SolidColorBrush(Color.FromRgb(255, 51, 51));
+            BadAppleColor = new SolidColorBrush(Color.FromRgb(153, 102, 0));
         }
 
         public Brush BoardColor
@@ -65,6 +67,16 @@ namespace SnakeGame.Snake
             set
             {
                 _appleColor = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Brush BadAppleColor
+        {
+            get => _badAppleColor;
+            set
+            {
+                _badAppleColor = value;
                 OnPropertyChanged();
             }
         }

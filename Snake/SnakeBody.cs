@@ -41,7 +41,8 @@ namespace SnakeGame.Snake
             _snakeCollection = snakeCollection;
             _snakeGameSettings = snakeGameSettings;
             _snakeEvents = snakeEvents;
-            _snakeEvents.SnakeTryDirectionChanged += OnDirectionChange;
+            _snakeEvents.SnakeTryDirectionChanged += OnTryDirectionChange;
+            _snakeEvents.SnakeDirectionChanged += OnForceDirectionChange;
             _snakeEvents.SnakeGameOver += OnGameEnd;
         }
 
@@ -60,8 +61,8 @@ namespace SnakeGame.Snake
 
             SnakeBody newHead = new SnakeBody(_snakeEvents, _snakeGameSettings, _snakeCollection)
             {
-                Width = _snakeGameSettings.PixelWidth / _snakeGameSettings.PixelScale,
-                Height = _snakeGameSettings.PixelHeight / _snakeGameSettings.PixelScale,
+                Width = lastPart.Width,
+                Height = lastPart.Height,
                 Fill = _snakeGameSettings.SnakeHeadColor,
                 Left = lastPart.Left,
                 Top = lastPart.Top
@@ -77,6 +78,43 @@ namespace SnakeGame.Snake
             _snakeCollection.Add(newHead); // add to collection for render
             
         }
+
+        public SnakeBody ReverseSnake()
+        {
+            SwapSnakeColor();
+            return ReverseSnakeNodes();
+        }
+
+        public SnakeBody ReverseSnakeNodes()
+        {
+            SnakeBody Cursor = this;
+            while (true)
+            {
+                var cacheNext = Cursor.Next;
+                Cursor.Next = Cursor.Previous;
+                Cursor.Previous = cacheNext;
+
+                if (cacheNext is not null)
+                    Cursor = cacheNext;
+                else
+                    return Cursor;
+            }
+        }
+
+
+
+        public void SwapSnakeColor()
+        {
+            SnakeBody startCursor = this;
+            SnakeBody endCursor = Last();
+            if (startCursor != null && endCursor != null)
+            {
+                var cacheColor = startCursor.Fill;
+                startCursor.Fill = endCursor.Fill;
+                endCursor.Fill = cacheColor;
+            }
+        }
+
 
         private void RepositionHead(SnakeBody head)
         {
@@ -112,7 +150,7 @@ namespace SnakeGame.Snake
             
         }
 
-        public void OnDirectionChange(SnakeDirection snakeDirection)
+        public void OnTryDirectionChange(SnakeDirection snakeDirection)
         {
             if(_snakeDirection == SnakeDirection.Left &&
                 snakeDirection != SnakeDirection.Right ||
@@ -134,6 +172,11 @@ namespace SnakeGame.Snake
             }
         }
 
+        public void OnForceDirectionChange(SnakeDirection snakeDirection)
+        {
+            _snakeDirection = snakeDirection;
+        }
+
         public SnakeBody Last()
         {
             SnakeBody cursor = this;
@@ -144,7 +187,8 @@ namespace SnakeGame.Snake
 
         public void OnGameEnd()
         {
-            _snakeEvents.SnakeTryDirectionChanged -= OnDirectionChange;
+            _snakeEvents.SnakeTryDirectionChanged -= OnTryDirectionChange;
+            _snakeEvents.SnakeDirectionChanged -= OnForceDirectionChange;
             _snakeEvents.SnakeGameOver -= OnGameEnd;
         }
 
