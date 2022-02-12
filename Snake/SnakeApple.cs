@@ -8,13 +8,15 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Controls;
 using SnakeGame.Core;
+using SnakeGame.Snake.Contracts;
+using System.Windows.Media.Imaging;
 
 namespace SnakeGame.Snake
 {
-    public class SnakeApple : Shape
+    public class SnakeApple : Shape, ISnakeApple
     {
-        private SnakeEvents _snakeEvents;
-        private SnakeGameSettings _snakeGameSettings;
+        private ISnakeEvents _snakeEvents;
+        private ISnakeGameSettings _snakeGameSettings;
         private SnakeCollection _snakeCollection;
         protected override Geometry DefiningGeometry { get => new EllipseGeometry(new Rect(new Point(0, 0), new Size(Width, Height))); }
 
@@ -32,7 +34,7 @@ namespace SnakeGame.Snake
 
         public bool IsBadApple { get; set; }
 
-        public SnakeApple(SnakeEvents snakeEvents, SnakeGameSettings snakeGameSettings, SnakeCollection snakeCollection)
+        public SnakeApple(ISnakeEvents snakeEvents, ISnakeGameSettings snakeGameSettings, SnakeCollection snakeCollection)
         {
             _snakeEvents = snakeEvents;
             _snakeGameSettings = snakeGameSettings;
@@ -57,8 +59,8 @@ namespace SnakeGame.Snake
             double randLeft, randTop;
             do
             {
-                randLeft = Utilities.Random.Next(_snakeGameSettings.PixelWidth / _snakeGameSettings.PixelScale, _snakeGameSettings.PixelWidth - (_snakeGameSettings.PixelWidth / _snakeGameSettings.PixelScale));
-                randTop = Utilities.Random.Next(_snakeGameSettings.PixelHeight / _snakeGameSettings.PixelScale, _snakeGameSettings.PixelHeight - (_snakeGameSettings.PixelHeight / _snakeGameSettings.PixelScale));
+                randLeft = Utilities.Random.Next((int)(_snakeGameSettings.PixelWidth / _snakeGameSettings.PixelScale), (int)(_snakeGameSettings.PixelWidth - (int)(_snakeGameSettings.PixelWidth / _snakeGameSettings.PixelScale)));
+                randTop = Utilities.Random.Next((int)(_snakeGameSettings.PixelHeight / _snakeGameSettings.PixelScale), (int)(_snakeGameSettings.PixelHeight - (int)(_snakeGameSettings.PixelHeight / _snakeGameSettings.PixelScale)));
                 elements = _snakeCollection.Where(s =>
                 {
                     if (s is SnakeBody sb)
@@ -73,8 +75,9 @@ namespace SnakeGame.Snake
                 }).Count();
             } while (elements > 0);
 
-            if(Utilities.ChanceToBoolean(15)) // 15 percent chance for a bad apple
+            if (Utilities.ChanceToBoolean(15)) // 15 percent chance for a bad apple
             {
+                
                 Fill = _snakeGameSettings.BadAppleColor;
                 IsBadApple = true;
             }

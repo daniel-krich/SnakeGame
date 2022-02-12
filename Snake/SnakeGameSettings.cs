@@ -4,31 +4,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SnakeGame.Snake.Contracts;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace SnakeGame.Snake
 {
-    public class SnakeGameSettings : ObservableObject
+    public class SnakeGameSettings : ObservableObject, ISnakeGameSettings
     {
         private Brush _boardColor;
         private Brush _snakeColor;
         private Brush _snakeHeadColor;
         private Brush _appleColor;
         private Brush _badAppleColor;
-        private int _pixelWidth;
-        private int _pixelHeight;
-        private int _pixelScale;
+        private double _pixelWidth;
+        private double _pixelHeight;
+        private double _pixelScale;
 
         public SnakeGameSettings()
         {
-            PixelScale = 26;
-            PixelWidth = 500;
-            PixelHeight = 500;
-            BoardColor = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-            SnakeColor = new SolidColorBrush(Color.FromRgb(36, 143, 36));
-            SnakeHeadColor = new SolidColorBrush(Color.FromRgb(20, 82, 20));
-            AppleColor = new SolidColorBrush(Color.FromRgb(255, 51, 51));
-            BadAppleColor = new SolidColorBrush(Color.FromRgb(153, 102, 0));
+            ImageBrush BadAppleBrush = new ImageBrush();
+            BadAppleBrush.ImageSource = new BitmapImage(new Uri(@"Resources/BadApple.png", UriKind.Relative));
+
+            ImageBrush AppleBrush = new ImageBrush();
+            AppleBrush.ImageSource = new BitmapImage(new Uri(@"Resources/GoodApple.png", UriKind.Relative));
+
+            PixelScale = 26.0;
+            PixelWidth = 500.0;
+            PixelHeight = 500.0;
+            BoardColor = new SolidColorBrush(Color.FromRgb(242, 242, 242));
+            SnakeColor = new SolidColorBrush(Color.FromRgb(0, 230, 77));
+            SnakeHeadColor = new SolidColorBrush(Color.FromRgb(0, 204, 68));
+            AppleColor = AppleBrush;
+            BadAppleColor = BadAppleBrush;
         }
 
         public Brush BoardColor
@@ -81,7 +89,7 @@ namespace SnakeGame.Snake
             }
         }
 
-        public int PixelWidth
+        public double PixelWidth
         {
             get => _pixelWidth;
             set
@@ -91,7 +99,7 @@ namespace SnakeGame.Snake
             }
         }
 
-        public int PixelHeight
+        public double PixelHeight
         {
             get => _pixelHeight;
             set
@@ -101,7 +109,7 @@ namespace SnakeGame.Snake
             }
         }
 
-        public int PixelScale
+        public double PixelScale
         {
             get => _pixelScale;
             set

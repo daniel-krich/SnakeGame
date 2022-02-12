@@ -1,4 +1,5 @@
 ﻿using SnakeGame.Core;
+using SnakeGame.Snake.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace SnakeGame.Snake
 {
-    public class SnakeScore : ObservableObject
+    public class SnakeScore : ObservableObject, ISnakeScore
     {
-        private SnakeEvents _snakeEvents;
+        private ISnakeEvents _snakeEvents;
         private int _score;
         public int Score
         {
@@ -27,9 +28,9 @@ namespace SnakeGame.Snake
         {
             get
             {
-                if(Score > 150)
+                if (Score > 150)
                     return 1000 / 15;
-                else if(Score > 100)
+                else if (Score > 100)
                     return 1000 / 14;
                 else if (Score > 75)
                     return 1000 / 13;
@@ -43,7 +44,7 @@ namespace SnakeGame.Snake
             }
         }
 
-        public SnakeScore(SnakeEvents snakeEvents)
+        public SnakeScore(ISnakeEvents snakeEvents)
         {
             _snakeEvents = snakeEvents;
             _snakeEvents.SnakeAppleEaten += OnAppleEaten;
@@ -53,7 +54,7 @@ namespace SnakeGame.Snake
 
         public void OnAppleEaten(bool isbadapple)
         {
-            if(!isbadapple) // add score only if it is a good apple
+            if (!isbadapple) // add score only if it is a good apple
                 Score++;
         }
 

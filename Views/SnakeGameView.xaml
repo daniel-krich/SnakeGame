@@ -36,15 +36,15 @@
                     Orientation="Horizontal">
             <!-- back to menu -->
             <Button Content="Back"
-                    Width="100"
-                    FontSize="15"
+                    Width="70"
+                    FontSize="22"
                     Margin="0,0,50,0"
                     Background="#303030"
                     Foreground="#00cc80"
                     FocusVisualStyle="{x:Null}"
                     Command="{Binding NavToMenu}"
                     Style="{StaticResource ModernButton}"
-                    FontWeight="DemiBold"/>
+                    FontWeight="DemiBold" FontFamily="Aharoni"/>
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
@@ -54,21 +54,21 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Padding="5"
-                            FontSize="15"
-                            Width="60"
+                            FontSize="22"
+                            Width="70"
                             Background="#303030"
                             Foreground="#00cc80"
-                            FontWeight="DemiBold"/>
+                            FontWeight="DemiBold" FontFamily="Aharoni"/>
                 <TextBlock Text="{Binding SnakeGame.SnakeStats.Score}"
                             TextAlignment="Center"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Padding="5"
-                            FontSize="15"
+                            FontSize="25"
                             MinWidth="40"
                             Background="#efefef"
                             Foreground="#212121"
-                            FontWeight="DemiBold"/>
+                            FontWeight="DemiBold" FontFamily="Aharoni"/>
             </StackPanel>
         </StackPanel>
 
@@ -80,8 +80,9 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 TextAlignment="Center"
-                Height="100"
+                Height="50"
                 FontSize="15"
+                FontFamily="Bahnschrift SemiLight"
                 Foreground="#212121"
                 FocusVisualStyle="{x:Null}">
             <TextBlock.Visibility>
@@ -93,30 +94,45 @@
             </TextBlock.Visibility>
         </TextBlock>
 
-        <!-- replay game btn -->
-        <Button Content="Replay"
-                Grid.Row="2"
-                Grid.Column="1"
-                Panel.ZIndex="2"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Width="150"
-                Height="70"
-                FontSize="30"
-                Margin="5"
-                Background="#00cc80"
-                Foreground="#efefef"
-                Command="{Binding Replay}"
-                FocusVisualStyle="{x:Null}"
-                Style="{StaticResource ModernButton}">
-            <Button.Visibility>
+        <StackPanel Grid.Row="2"
+                    Grid.Column="1"
+                    Panel.ZIndex="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+            <!-- replay text text -->
+            <TextBlock Text="You've lost"
+                    Height="50"
+                    FontSize="30"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    TextAlignment="Center"
+                    Foreground="#212121"
+                    FocusVisualStyle="{x:Null}"
+                    FontFamily="Aharoni">
+            </TextBlock>
+
+            <!-- replay game btn -->
+            <Button Content="Replay"
+                    Width="150"
+                    Height="70"
+                    FontSize="30"
+                    FontFamily="Aharoni"
+                    Margin="5"
+                    Background="#00cc80"
+                    Foreground="#efefef"
+                    Command="{Binding Replay}"
+                    FocusVisualStyle="{x:Null}"
+                    Style="{StaticResource ModernButton}">
+            </Button>
+            <StackPanel.Visibility>
                 <Binding Path="SnakeGame.IsNotActive">
                     <Binding.Converter>
                         <BooleanToVisibilityConverter />
                     </Binding.Converter>
                 </Binding>
-            </Button.Visibility>
-        </Button>
+            </StackPanel.Visibility>
+        </StackPanel>
         <Border Grid.Row="2"
                 Grid.Column="1"
                 CornerRadius="3"

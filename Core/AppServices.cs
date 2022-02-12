@@ -10,6 +10,7 @@ using SnakeGame.Services;
 using SnakeGame.Snake;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
+using SnakeGame.Snake.Contracts;
 
 namespace SnakeGame.Core
 {
@@ -19,12 +20,12 @@ namespace SnakeGame.Core
         {
             IServiceCollection service = new ServiceCollection();
 
-            service.AddTransient<SnakeScore>();
-            service.AddTransient<SnakeGameMain>();
-            service.AddTransient<SnakeControls>();
+            service.AddTransient<ISnakeGameMain, SnakeGameMain>();
+            service.AddTransient<ISnakeControls, SnakeControls>();
             service.AddSingleton<SnakeCollection>();
-            service.AddSingleton<SnakeGameSettings>();
-            service.AddSingleton<SnakeEvents>();
+            service.AddSingleton<ISnakeScore, SnakeScore>();
+            service.AddSingleton<ISnakeGameSettings, SnakeGameSettings>();
+            service.AddSingleton<ISnakeEvents, SnakeEvents>();
 
             service.AddTransient<FunctionDelayer>();
 

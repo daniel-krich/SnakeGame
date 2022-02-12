@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SnakeGame.Snake.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,16 +7,7 @@ using System.Threading.Tasks;
 
 namespace SnakeGame.Snake
 {
-    public enum SnakeDirection
-    {
-        Pause,
-        Left,
-        Up,
-        Right,
-        Down
-    }
-
-    public class SnakeEvents
+    public class SnakeEvents : ISnakeEvents
     {
         public event Action<SnakeDirection> SnakeTryDirectionChanged;
         public event Action<SnakeDirection> SnakeDirectionChanged;

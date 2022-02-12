@@ -28,10 +28,10 @@
                 Grid.Column="1"
                 Grid.RowSpan="3"
                 Grid.ColumnSpan="3"
-                Background="#212121"
                 CornerRadius="15"
-                Opacity="0.5"/>
-        
+                Opacity="0.8"
+                Background="#00b359"/>
+
         <!-- Menu title -->
         <TextBlock Text="Snake game"
                    Grid.Row="1"
@@ -40,7 +40,7 @@
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    Foreground="#efefef"
-                   FontFamily="Bahnschrift Condensed"
+                   FontFamily="Aharoni"
                    FontSize="36"/>
         
         <!-- Play Btn -->
@@ -53,7 +53,7 @@
                 Foreground="#212121"
                 Command="{Binding Play}"
                 Style="{StaticResource ModernButton}"
-                FontFamily="Bahnschrift Condensed"
+                FontFamily="Aharoni"
                 FontSize="24"/>
 
         <!-- Exit Btn -->
@@ -66,7 +66,7 @@
                 Foreground="#efefef"
                 Command="{Binding Exit}"
                 Style="{StaticResource ModernButton}"
-                FontFamily="Bahnschrift Condensed"
+                FontFamily="Aharoni"
                 FontSize="24"/>
     </Grid>
 </UserControl>

@@ -11,17 +11,18 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using SnakeGame.Snake.Contracts;
 
 namespace SnakeGame.ViewModels
 {
     
     public class SnakeGameViewModel : BaseViewModel
     {
-        public SnakeGameMain SnakeGame { get; set; }
+        public ISnakeGameMain SnakeGame { get; set; }
 
         public RelayCommand Replay { get; set; }
         public RelayCommand NavToMenu { get; set; }
-        public SnakeGameViewModel(IPageNavigator navigator, SnakeGameMain snakeGameLogic)
+        public SnakeGameViewModel(IPageNavigator navigator, ISnakeGameMain snakeGameLogic)
         {
             SnakeGame = snakeGameLogic;
             SnakeGame.Start();

@@ -13,10 +13,10 @@
         <Border.Background>
             <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
                 <LinearGradientBrush.GradientStops>
-                    <GradientStop Offset="0.0" Color="#66ff99" />
-                    <GradientStop Offset="0.1" Color="#66ff99" />
-                    <GradientStop Offset="0.9" Color="#005580" />
-                    <GradientStop Offset="1.0" Color="#005580" />
+                    <GradientStop Offset="0.0" Color="#99ddff" />
+                    <GradientStop Offset="0.1" Color="#80d4ff" />
+                    <GradientStop Offset="0.9" Color="#66ccff" />
+                    <GradientStop Offset="1.0" Color="#b3e6ff" />
                 </LinearGradientBrush.GradientStops>
             </LinearGradientBrush>
         </Border.Background>

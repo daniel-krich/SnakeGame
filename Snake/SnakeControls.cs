@@ -1,4 +1,5 @@
 ﻿using SnakeGame.Core;
+using SnakeGame.Snake.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace SnakeGame.Snake
 {
-    public class SnakeControls
+    public class SnakeControls : ISnakeControls
     {
-        private SnakeEvents _snakeEvents;
+        private ISnakeEvents _snakeEvents;
         public RelayCommand CommandLeft { get; set; }
         public RelayCommand CommandUp { get; set; }
         public RelayCommand CommandRight { get; set; }
         public RelayCommand CommandDown { get; set; }
 
-        public SnakeControls(SnakeEvents snakeEvents)
+        public SnakeControls(ISnakeEvents snakeEvents)
         {
             _snakeEvents = snakeEvents;
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SnakeGame.Snake.Contracts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,10 +14,10 @@ using System.Windows.Shapes;
 
 namespace SnakeGame.Snake
 {
-    public class SnakeBody : Shape, IEnumerable<SnakeBody>
+    public class SnakeBody : Shape, IEnumerable<SnakeBody>, ISnakeBody
     {
-        private SnakeEvents _snakeEvents;
-        private SnakeGameSettings _snakeGameSettings;
+        private ISnakeEvents _snakeEvents;
+        private ISnakeGameSettings _snakeGameSettings;
         private SnakeCollection _snakeCollection;
         public SnakeDirection _snakeDirection;
         protected override Geometry DefiningGeometry { get => new RectangleGeometry(new Rect(new Point(0, 0), new Size(Width, Height))); }
@@ -36,7 +37,7 @@ namespace SnakeGame.Snake
         public SnakeBody Previous { get; set; }
         public SnakeBody Next { get; set; }
 
-        public SnakeBody(SnakeEvents snakeEvents, SnakeGameSettings snakeGameSettings, SnakeCollection snakeCollection)
+        public SnakeBody(ISnakeEvents snakeEvents, ISnakeGameSettings snakeGameSettings, SnakeCollection snakeCollection)
         {
             _snakeCollection = snakeCollection;
             _snakeGameSettings = snakeGameSettings;
@@ -58,8 +59,8 @@ namespace SnakeGame.Snake
                 this.Width = _snakeGameSettings.PixelWidth / _snakeGameSettings.PixelScale;
                 this.Height = _snakeGameSettings.PixelHeight / _snakeGameSettings.PixelScale;
                 this.Fill = _snakeGameSettings.SnakeHeadColor;
-                this.Left = _snakeGameSettings.PixelWidth / 2;
-                this.Top = _snakeGameSettings.PixelHeight / 2;
+                this.Left = _snakeGameSettings.PixelWidth / 2.0;
+                this.Top = _snakeGameSettings.PixelHeight / 2.0;
             }
 
             SnakeBody newHead = new SnakeBody(_snakeEvents, _snakeGameSettings, _snakeCollection)
@@ -79,7 +80,7 @@ namespace SnakeGame.Snake
             lastPart.Next = newHead; // reference the next object
 
             _snakeCollection.Add(newHead); // add to collection for render
-            
+
         }
 
         /// <summary>
@@ -160,7 +161,7 @@ namespace SnakeGame.Snake
                 lastLeft = currLeft;
                 lastTop = currTop;
             }
-            
+
         }
 
         public void OnTryDirectionChange(SnakeDirection snakeDirection)

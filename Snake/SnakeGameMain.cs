@@ -1,4 +1,5 @@
 ﻿using SnakeGame.Core;
+using SnakeGame.Snake.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,19 +14,19 @@ using System.Windows.Shapes;
 
 namespace SnakeGame.Snake
 {
-    public class SnakeGameMain : ObservableObject
+    public class SnakeGameMain : ObservableObject, ISnakeGameMain
     {
-        private SnakeBody _rootSnake;
-        private SnakeApple _apple;
+        private ISnakeBody _rootSnake;
+        private ISnakeApple _apple;
         private bool _isplaying;
         private bool _ispaused;
         private FunctionDelayer _funcDelay;
-        private SnakeEvents _snakeEvents;
+        private ISnakeEvents _snakeEvents;
         private SnakeDirection _currentDirection;
 
-        public SnakeControls Controls { get; set; }
-        public SnakeScore SnakeStats { get; set; }
-        public SnakeGameSettings SnakeSettings { get; set; }
+        public ISnakeControls Controls { get; set; }
+        public ISnakeScore SnakeStats { get; set; }
+        public ISnakeGameSettings SnakeSettings { get; set; }
         public bool IsPaused
         {
             get => _ispaused && _isplaying;
@@ -47,12 +48,12 @@ namespace SnakeGame.Snake
         }
 
         public bool IsNotActive { get => !IsPlaying; }
-        
+
         public SnakeCollection SnakeShapesCollection { get; set; }
-        
-        public SnakeGameMain(SnakeGameSettings snakeGameSettings, SnakeEvents snakeEvents,
-            SnakeCollection snakeCollection, SnakeControls snakeControls,
-            FunctionDelayer functionDelayer, SnakeScore snakeScore)
+
+        public SnakeGameMain(ISnakeGameSettings snakeGameSettings, ISnakeEvents snakeEvents,
+            SnakeCollection snakeCollection, ISnakeControls snakeControls,
+            FunctionDelayer functionDelayer, ISnakeScore snakeScore)
         {
             _funcDelay = functionDelayer;
             _snakeEvents = snakeEvents;
@@ -76,6 +77,7 @@ namespace SnakeGame.Snake
                 cursor.Top < 0 ||
                 cursor.Left < 0)
             {
+                //Trace.WriteLine($"{cursor.Left} {cursor.Top}");
                 //Trace.WriteLine("out of bounds");
                 Exit();
                 return;
@@ -109,7 +111,7 @@ namespace SnakeGame.Snake
                         _snakeEvents.InvokeSnakeDirectionChanged(SnakeDirection.Left);
                     else if (headSnake.Left > headSnake.Previous.Left)
                         _snakeEvents.InvokeSnakeDirectionChanged(SnakeDirection.Right);
-                    else if(headSnake.Top < headSnake.Previous.Top)
+                    else if (headSnake.Top < headSnake.Previous.Top)
                         _snakeEvents.InvokeSnakeDirectionChanged(SnakeDirection.Up);
                     else if (headSnake.Top > headSnake.Previous.Top)
                         _snakeEvents.InvokeSnakeDirectionChanged(SnakeDirection.Down);
@@ -122,20 +124,22 @@ namespace SnakeGame.Snake
                 }
             }
             //
-            
+
         }
         public void Start()
         {
+            SnakeShapesCollection.Clear();
+
             _snakeEvents.InvokeSnakeGameStart();
 
             _rootSnake = new SnakeBody(_snakeEvents, SnakeSettings, SnakeShapesCollection);
             _rootSnake.AddSnakeJoint();
             _rootSnake.AddSnakeJoint();
-            SnakeShapesCollection.Add(_rootSnake);
+            SnakeShapesCollection.Add(_rootSnake as Shape);
             //
             _apple = new SnakeApple(_snakeEvents, SnakeSettings, SnakeShapesCollection);
-            SnakeShapesCollection.Add(_apple);
             _apple.GenerateAppleTypeAndPosition();
+            SnakeShapesCollection.Add(_apple as Shape);
             //
             _funcDelay.CreateDo(() => _rootSnake.SnakeMove(), SnakeStats.SnakeSpeed);
 
@@ -146,7 +150,7 @@ namespace SnakeGame.Snake
             IsPaused = true;
         }
 
-        public void OnDirectionChange(SnakeDirection snakeDirection)
+        private void OnDirectionChange(SnakeDirection snakeDirection)
         {
             _currentDirection = snakeDirection;
             IsPaused = false;
@@ -154,7 +158,7 @@ namespace SnakeGame.Snake
 
         public void Exit()
         {
-            SnakeShapesCollection.Clear();
+            //SnakeShapesCollection.Clear();
             CompositionTarget.Rendering -= MainLoop;
             _snakeEvents.SnakeDirectionChanged -= OnDirectionChange;
             IsPlaying = false;
