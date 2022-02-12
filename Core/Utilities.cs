@@ -10,12 +10,12 @@ namespace SnakeGame.Core
     {
         public static Random Random { get; } = new Random();
 
-        public static bool ChanceToBoolean(int percentage)
+        public static bool ChanceToBoolean(int percentChance)
         {
-            if (percentage > 100 || percentage < 0)
+            if (percentChance > 100 || percentChance < 0)
                 throw new ArgumentOutOfRangeException("Allowed range 0-100");
 
-            if (Random.Next(100 / percentage) == (100 / percentage) - 1)
+            if (Random.Next(100 / percentChance) == (100 / percentChance) - 1)
                 return true;
             else
                 return false;
