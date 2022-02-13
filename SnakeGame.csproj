@@ -7,20 +7,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\BadApple.png" />
+    <None Remove="Assets\GoodApple.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\BadApple.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\GoodApple.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Images\BadApple.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Images\GoodApple.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
