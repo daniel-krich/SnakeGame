@@ -24,10 +24,10 @@ namespace SnakeGame.Snake
         public SnakeGameSettings()
         {
             ImageBrush BadAppleBrush = new ImageBrush();
-            BadAppleBrush.ImageSource = new BitmapImage(new Uri(@"Resources/BadApple.png", UriKind.Relative));
+            BadAppleBrush.ImageSource = new BitmapImage(new Uri(@"Images/BadApple.png", UriKind.Relative));
 
             ImageBrush AppleBrush = new ImageBrush();
-            AppleBrush.ImageSource = new BitmapImage(new Uri(@"Resources/GoodApple.png", UriKind.Relative));
+            AppleBrush.ImageSource = new BitmapImage(new Uri(@"Images/GoodApple.png", UriKind.Relative));
 
             PixelScale = 26.0;
             PixelWidth = 500.0;
