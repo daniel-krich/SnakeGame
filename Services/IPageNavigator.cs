@@ -7,6 +7,6 @@ namespace SnakeGame.Services
     {
         event Action PageChanged;
         BaseViewModel CurrentPage { get; set; }
-        void NavigateTo<T>();
+        void NavigateTo<T>() where T : BaseViewModel;
     }
 }
