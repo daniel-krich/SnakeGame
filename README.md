@@ -1,6 +1,8 @@
 # SnakeGame
-**Snake game implementation on WPF .NET**<br>
-**Created for fun and the sake to learn WPF with MVVM.**
+**Snake game implementation on WPF .NET**
+
+Created for fun and the sake to learn WPF with MVVM.<br>
+Game also includes "Bad apples" (Colored blue) which reverse the snake to the opposite direction.
 
 ### Main menu ###
 ![snake1](https://user-images.githubusercontent.com/87533517/158467263-d54fddac-4324-4437-b2a8-90ef01863ebd.png)
